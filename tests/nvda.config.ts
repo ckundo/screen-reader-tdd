@@ -1,4 +1,4 @@
-import { nvda, windowsActivate, windowsRecord } from "@guidepup/guidepup";
+import { nvda, windowsActivate, windowsRecord, WindowsKeyCodes, WindowsModifiers } from "@guidepup/guidepup";
 import { test as base } from "@playwright/test";
 import { join } from "path";
 
@@ -16,6 +16,20 @@ export const test = base.extend<TestOptions>({
             await nvda.start();
             await windowsActivate(firefoxPath, "Firefox");
             stopRecording = windowsRecord(recordingPath);
+
+            while (true) {
+                await nvda.perform({
+                    keyCode: [WindowsKeyCodes.Tab],
+                    modifiers: [WindowsModifiers.Alt],
+                });
+
+                const lastSpokenPhrase = await nvda.lastSpokenPhrase();
+
+                if (lastSpokenPhrase.includes("Firefox")) {
+                    break;
+                }
+            }
+
             await use(nvda);
         } finally {
             stopRecording();
