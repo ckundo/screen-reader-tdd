@@ -16,20 +16,6 @@ export const test = base.extend<TestOptions>({
             await nvda.start();
             await windowsActivate(firefoxPath, "Firefox");
             stopRecording = windowsRecord(recordingPath);
-
-            while (true) {
-                await nvda.perform({
-                    keyCode: [WindowsKeyCodes.Tab],
-                    modifiers: [WindowsModifiers.Alt],
-                });
-
-                const lastSpokenPhrase = await nvda.lastSpokenPhrase();
-
-                if (lastSpokenPhrase.includes("Firefox")) {
-                    break;
-                }
-            }
-
             await use(nvda);
         } finally {
             stopRecording();
