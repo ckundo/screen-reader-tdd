@@ -9,7 +9,7 @@ test.describe("NVDA screen reader tests", () => {
 
         await nvda.perform(nvda.keyboardCommands.exitFocusMode);
         await nvda.press("Tab");
-        await nvda.click();
+        await nvda.perform(nvda.keyboardCommands.activate);
 
         const dialog = page.getByRole('dialog');
         await expect(dialog).toBeVisible();
