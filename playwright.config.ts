@@ -14,6 +14,7 @@ export default defineConfig({
   projects: [
     {
         name: 'voiceover',
+        grep: /@voiceover/,
         timeout: 5 * 60 * 1000,
         use: {
             ...devices['Desktop Safari'],
@@ -21,16 +22,13 @@ export default defineConfig({
         },
     },
     {
-      name: 'chromium',
-      use: { ...devices['Desktop Chrome'] },
-    },
-    {
-      name: 'firefox',
-      use: { ...devices['Desktop Firefox'] },
-    },
-    {
-      name: 'webkit',
-      use: { ...devices['Desktop Safari'] },
+        name: 'nvda',
+        grep: /@nvda/,
+        timeout: 5 * 60 * 1000,
+        use: {
+            ...devices['Desktop Firefox'],
+            headless: false,
+        },
     },
   ],
   webServer: {

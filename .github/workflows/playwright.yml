@@ -6,22 +6,33 @@ on:
     branches: [ main, master ]
 jobs:
   test:
-    timeout-minutes: 60
-    runs-on: ubuntu-latest
+    name: Playwright NVDA
+    runs-on: windows-latest
     steps:
-    - uses: actions/checkout@v3
-    - uses: actions/setup-node@v3
+    - name: Checkout repo
+      uses: actions/checkout@v3
+    - name: Setup node
+      uses: actions/setup-node@v3
       with:
         node-version: 18
-    - name: Install dependencies
-      run: yarn
-    - name: Install Playwright Browsers
-      run: yarn playwright install --with-deps
-    - name: Run Playwright tests
-      run: yarn playwright test
-    - uses: actions/upload-artifact@v3
-      if: always()
+    - name: Guidepup Setup
+      uses: guidepup/setup-action@0.11.2
       with:
-        name: playwright-report
-        path: playwright-report/
-        retention-days: 30
+        record: true
+    - name: Install dependencies and run
+      shell: bash
+      env:
+        PLAYWRIGHT_BROWSERS_PATH: 0
+      run: |
+        yarn install
+        npx playwright install --with-deps firefox
+        yarn playwright test --project nvda
+    - name: Upload artifacts
+      uses: actions/upload-artifact@v3
+      if: always()
+      continue-on-error: true
+      with:
+        name: artifacts
+        path: |
+          **/test-results/**/*
+          **/recordings/**/*
