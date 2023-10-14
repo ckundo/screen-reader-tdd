@@ -11,10 +11,8 @@ export const test = base.extend<TestOptions>({
         let stopRecording:() => void;
 
         try {
-            const chromePath = join(__dirname, "../node_modules/playwright-core/.local-browsers/chromium-1080/chrome-win/chrome.exe");
             const recordingPath = join(__dirname, `../recordings/playwright-nvda-firefox-${+new Date()}.mp4`);
             await nvda.start();
-            await windowsActivate(chromePath, "Chromium");
             stopRecording = windowsRecord(recordingPath);
             await use(nvda);
         } finally {
