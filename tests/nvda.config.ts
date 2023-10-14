@@ -11,8 +11,10 @@ export const test = base.extend<TestOptions>({
         let stopRecording:() => void;
 
         try {
+            const firefoxPath = join(__dirname, "../node_modules/playwright-core/.local-browsers/firefox-1424/firefox/firefox.exe");
             const recordingPath = join(__dirname, `../recordings/playwright-nvda-firefox-${+new Date()}.mp4`);
             await nvda.start();
+            await windowsActivate(firefoxPath, "Firefox");
             stopRecording = windowsRecord(recordingPath);
             await use(nvda);
         } finally {
