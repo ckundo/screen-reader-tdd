@@ -8,7 +8,7 @@ test.describe("NVDA screen reader tests", () => {
         await expect(page).toHaveTitle(/Login/);
 
         await nvda.perform(nvda.keyboardCommands.exitFocusMode);
-        await nvda.perform(nvda.keyboardCommands.moveToNextButton);
+        await nvda.press("Tab");
         await nvda.click();
 
         const dialog = page.getByRole('dialog');
