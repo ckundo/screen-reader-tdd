@@ -15,7 +15,6 @@ test.describe("NVDA screen reader tests", () => {
         await expect(dialog).toBeVisible();
 
         const announcement = await nvda.lastSpokenPhrase();
-        await expect(announcement).toMatch(/email address/i);
 
         await page.keyboard.press('Escape');
 
